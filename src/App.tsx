@@ -7,7 +7,7 @@ import { Home } from "./_root/pages";
 import "./globals.css";
 
 const App = () => (
-  <main className="flex min-h-screen">
+  <main className="flex h-screen">
     <Routes>
       {/* Public route */}
       <Route element={<AuthLayout />}>
