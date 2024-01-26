@@ -1,3 +1,4 @@
+import Loader from "@/components/shared/Loader";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -10,10 +11,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { SignupValidation } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { z } from "zod";
 
 const Signup = () => {
+  const isLoading = false;
+
   const form = useForm<z.infer<typeof SignupValidation>>({
     resolver: zodResolver(SignupValidation),
     defaultValues: {
@@ -39,7 +44,7 @@ const Signup = () => {
           Create a new account
         </h2>
         <p className="text-light-3 small-medium md:base-regular mt-2">
-          To use BdVibes enter your details
+          To use BdVibes, please enter your details
         </p>
 
         <form
@@ -81,7 +86,7 @@ const Signup = () => {
               <FormItem>
                 <FormLabel>email</FormLabel>
                 <FormControl>
-                  <Input type="email" className="shad-input" {...field} />
+                  <Input type="text" className="shad-input" {...field} />
                 </FormControl>
 
                 <FormMessage />
@@ -103,8 +108,24 @@ const Signup = () => {
             )}
           />
           <Button type="submit" className="shad-button_primary">
-            Submit
+            {isLoading ? (
+              <div className="flex-center gap-2">
+                {" "}
+                <Loader /> Loading...
+              </div>
+            ) : (
+              "Sign Up"
+            )}
           </Button>
+          <p className="text-small-regular text-light-2 text-center mt-2">
+            Already have an account?
+            <Link
+              to="/sign-in"
+              className="text-primary-500 text-small-semibold ml-1"
+            >
+              Login
+            </Link>
+          </p>
         </form>
       </div>
     </Form>
