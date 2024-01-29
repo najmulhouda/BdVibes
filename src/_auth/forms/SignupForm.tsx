@@ -9,6 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 import { createUserAccount } from "@/lib/appwrite/api";
 import { SignupValidation } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,6 +19,7 @@ import { Link } from "react-router-dom";
 import { z } from "zod";
 
 const Signup = () => {
+  const { toast } = useToast();
   const isLoading = false;
 
   const form = useForm<z.infer<typeof SignupValidation>>({
@@ -33,12 +35,15 @@ const Signup = () => {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof SignupValidation>) {
     const newUser = await createUserAccount(values);
-    console.log(newUser);
+    if (!newUser) {
+      return toast({ title: "Sign up faield, Please try again" });
+    }
+    // const session = await signInAccount();
   }
 
   return (
     <Form {...form}>
-      <div className="sm:w-420 flex-center flex-col ">
+      <div className="sm:w-420 flex-center flex-col">
         <img src="/public/assets/images/logo.svg" />
         <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">
           Create a new account
