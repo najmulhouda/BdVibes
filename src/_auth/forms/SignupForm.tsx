@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import { signInAccount } from "@/lib/appwrite/api";
 import { useCreateUserAccount } from "@/lib/react-query/queriesAndMutation";
 import { SignupValidation } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -40,7 +41,13 @@ const Signup = () => {
     if (!newUser) {
       return toast({ title: "Sign up faield, Please try again" });
     }
-    // const session = await signInAccount();
+    const session = await signInAccount({
+      email: values.email,
+      password: values.password,
+    });
+    if (!session) {
+      return toast({ title: "Sign in faield, Please try again" });
+    }
   }
 
   return (
