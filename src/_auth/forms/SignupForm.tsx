@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { createUserAccount } from "@/lib/appwrite/api";
+import { useCreateUserAccount } from "@/lib/react-query/queriesAndMutation";
 import { SignupValidation } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -20,7 +20,9 @@ import { z } from "zod";
 
 const Signup = () => {
   const { toast } = useToast();
-  const isLoading = false;
+
+  const { mutateAsync: createUserAccount, isLoading: isCreatingUser } =
+    useCreateUserAccount();
 
   const form = useForm<z.infer<typeof SignupValidation>>({
     resolver: zodResolver(SignupValidation),
@@ -113,7 +115,7 @@ const Signup = () => {
             )}
           />
           <Button type="submit" className="shad-button_primary">
-            {isLoading ? (
+            {isCreatingUser ? (
               <div className="flex-center gap-2">
                 {" "}
                 <Loader /> Loading...
