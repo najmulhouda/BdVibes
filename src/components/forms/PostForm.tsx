@@ -7,33 +7,33 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { PostValidation } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Models } from "appwrite";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import FileUploader from "../shared/FileUploader";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-});
-const PostForm = ({ post }) => {
+type PostFormProps = {
+  post?: Models.Document;
+};
+
+const PostForm = ({ post }: PostFormProps) => {
   // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof PostValidation>>({
+    resolver: zodResolver(PostValidation),
     defaultValues: {
-      username: "",
+      caption: post ? post?.caption : "",
+      file: [],
+      location: post ? post?.location : "",
+      tags: post ? post?.tags : "",
     },
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-  }
+  function onSubmit(values: z.infer<typeof PostValidation>) {}
 
   return (
     <Form {...form}>
@@ -82,7 +82,7 @@ const PostForm = ({ post }) => {
             <FormItem>
               <FormLabel className="shad-form_label">Add Location</FormLabel>
               <FormControl>
-                <Input type="text" className="shad-input" />
+                <Input type="text" className="shad-input" {...field} />
               </FormControl>
 
               <FormMessage className="shad-form_message" />
@@ -102,6 +102,7 @@ const PostForm = ({ post }) => {
                   type="text"
                   className="shad-input"
                   placeholder="Art, Expression , Feeling "
+                  {...field}
                 />
               </FormControl>
 
