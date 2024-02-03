@@ -110,7 +110,7 @@ const PostForm = ({ post }: PostFormProps) => {
             </FormItem>
           )}
         />
-        <div className="flex justify-end gap-4 items-center">
+        <div className="flex justify-end gap-4 items-center mt-5">
           <Button type="button" className="shad-button_dark_4">
             Cancel
           </Button>
