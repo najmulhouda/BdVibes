@@ -45,3 +45,8 @@ export const useGetRecentPosts = () => {
     queryFn: getRecentPosts,
   });
 };
+
+export const useLikePosts = () => {
+  const queryClient = useQueryClient();
+  mutationFn: ({postId, likesArray}: {postId: string, likesArray: string[]}) => ()
+};
