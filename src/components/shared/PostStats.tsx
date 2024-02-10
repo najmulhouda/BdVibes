@@ -1,4 +1,3 @@
-import { useUserContext } from "@/context/AuthContext";
 import {
   useDeleteSavedPosts,
   useLikePosts,
@@ -22,36 +21,60 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
   const { mutate: savePost } = useSavePosts();
   const { mutate: deleteSavedPost } = useDeleteSavedPosts();
 
-  const { data: currentUser } = useUserContext();
+  const { data: currentUser } = useGetCurrentUser();
 
-  const handleLikePost = () => {};
-  const handleSavePost = () => {};
+  const handleLikePost = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    let newLikes = [...likes];
+    const hasLiked = newLikes.includes(userId);
+    if (hasLiked) {
+      newLikes = newLikes.filter((id) => id !== userId);
+    } else {
+      newLikes.push(userId);
+    }
+    setLikes(newLikes);
+    likePost({ postId: post.$id, likesArray: newLikes });
+  };
+  const handleSavePost = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const savedPostRecord = currentUser?.save.find(
+      (record: Models.Document) => record.$id === post.$id
+    );
+
+    if (savedPostRecord) {
+      setIsSaved(false);
+      deleteSavedPost(savedPostRecord.$id);
+    } else {
+      savePost({ postId: post.$id, userId });
+      setIsSaved(true);
+    }
+  };
 
   return (
     <div className="flex justify-between items-center z-20">
       <div className="flex gap-2 mr-5">
         <img
-          src={`${
+          src={
             checkIsLiked(likes, userId)
               ? "/assets/icons/liked.svg"
               : "/assets/icons/like.svg"
-          }`}
+          }
           alt="like"
           width={20}
           height={20}
           className="cursor-pointer"
-          onClick={() => {}}
+          onClick={handleLikePost}
         />
-        <p className="small-medium lg:base-medium">0</p>
+        <p className="small-medium lg:base-medium">{likes.length}</p>
       </div>
       <div className="flex gap-2 ">
         <img
-          src="/assets/icons/save.svg"
+          src={isSaved ? "/assets/icons/saved.svg" : "/assets/icons/save.svg"}
           alt="like"
           width={20}
           height={20}
           className="cursor-pointer"
-          onClick={() => {}}
+          onClick={handleSavePost}
         />
       </div>
     </div>
