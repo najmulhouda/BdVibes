@@ -266,18 +266,13 @@ export async function deleteSavedPost(savedRecordId: string) {
   }
 }
 
-export async function getUserPosts(userId?: string) {
-  if (!userId) return;
-
+export async function getPostById(postId: string) {
   try {
-    const post = await databases.listDocuments(
+    const post = await databases.getDocument(
       appwriteConfig.databaseId,
       appwriteConfig.postCollectionId,
-      [Query.equal("creator", userId), Query.orderDesc("$createdAt")]
+      postId
     );
-
-    if (!post) throw Error;
-
     return post;
   } catch (error) {
     console.log(error);
