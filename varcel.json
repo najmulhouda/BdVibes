@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/sign-in",
-      "destination": "https://bd-vibes.vercel.app/sign-in"
+      "destination": "https:/sign-in"
     }
   ]
 }
