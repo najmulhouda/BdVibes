@@ -1,5 +1,3 @@
 {
-  "redirects": [
-    { "source": "/sign-in)", "destination": "./src/_auth/forms/SigninForm.tsx" }
-  ]
+  "redirects": [{ "source": "/sign-in)", "destination": "/SinginForm.tsx" }]
 }
