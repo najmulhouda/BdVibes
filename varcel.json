@@ -2,7 +2,7 @@
   "redirects": [
     {
       "source": "/sign-in)",
-      "destination": "https://bd-vibes.vercel.app/sign-in"
+      "destination": "src/_auth/forms/SigninForm.tsx"
     }
   ]
 }
