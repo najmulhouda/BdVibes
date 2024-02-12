@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/sign-in",
-      "destination": "/src/_auth/forms/SigninForm.tsx"
+      "source": "/signin",
+      "destination": "./src/_auth/forms/SigninForm.tsx"
     }
   ]
 }
