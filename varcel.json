@@ -1,12 +1,3 @@
 {
-  "rewrites": [
-    {
-      "source": "/sign-in",
-      "destination": "/"
-    },
-    {
-      "source": "/sign-up",
-      "destination": "/"
-    }
-  ]
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
