@@ -2,7 +2,11 @@
   "rewrites": [
     {
       "source": "/sign-in",
-      "destination": "./src/_auth/forms/SigninForm.tsx"
+      "destination": "/"
+    },
+    {
+      "source": "/sign-up",
+      "destination": "/"
     }
   ]
 }
