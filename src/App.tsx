@@ -1,5 +1,3 @@
-import { Route, Routes } from "react-router-dom";
-
 import SigninForm from "@/_auth/forms/SigninForm";
 import SignupForm from "@/_auth/forms/SignupForm";
 import {
@@ -14,6 +12,7 @@ import {
   UpdateProfile,
 } from "@/_root/pages";
 import { Toaster } from "@/components/ui/toaster";
+import { Route, Routes } from "react-router-dom";
 import AuthLayout from "./_auth/AuthLayout";
 import RootLayout from "./_root/RootLayout";
 
