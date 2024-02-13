@@ -36,6 +36,7 @@ const Explore = () => {
           />
         </div>
       </div>
+      <div className="flex flex-wrap gap-9 max-w-5xl"></div>
     </div>
   );
 };
