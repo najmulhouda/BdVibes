@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import useDebounce from "@/hooks/useDebounce";
 import {
   useGetPosts,
+  useGetUsers,
   useSearchPosts,
 } from "@/lib/react-query/queriesAndMutation";
 import { useEffect, useState } from "react";
@@ -14,7 +15,7 @@ const Explore = () => {
   const { ref, inView } = useInView();
 
   const { data: posts, fetchNextPage, hasNextPage } = useGetPosts();
-
+  const { data: users, fetchNextPageUsers, hasNextPageUsers } = useGetUsers();
   const [searchValue, setSearchValue] = useState("");
 
   const debouncedValue = useDebounce(searchValue, 500);
