@@ -395,16 +395,20 @@ export async function searchPosts(searchTerm: string) {
   }
 }
 
-export async function getInfiniteUsers() {
-  // const queries: any[] = [Query.orderDesc("$createdAt"), Query.limit(10)];
-  // if (pageParam) {
-  //   queries.push(Query.cursorAfter(pageParam.toString()));
-  // }
+export async function getInfiniteUsers({ pageParam }: { pageParam: number }) {
+  const queries: any[] = [
+    Query.orderDesc("$createdAt"),
+    Query.limit(10),
+    // Query.cursorAfter("lastId"),
+  ];
+  if (pageParam) {
+    queries.push(Query.cursorAfter(pageParam.toString()));
+  }
   try {
     const users = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.userCollectionId,
-      [Query.limit(10), Query.cursorAfter("lastId")]
+      queries
     );
     if (!users) throw Error;
     return users;

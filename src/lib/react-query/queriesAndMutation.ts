@@ -12,6 +12,7 @@ import {
   deleteSavedPost,
   getCurrentUser,
   getInfinitePosts,
+  getInfiniteUsers,
   getPostById,
   getRecentPosts,
   likePost,
@@ -169,7 +170,7 @@ export const useGetPosts = () => {
     queryFn: getInfinitePosts,
     getNextPageParam: (lastPage) => {
       if (lastPage && lastPage.documents.length === 0) return null;
-      const lastId = lastPage.documents[lastPage.documents.length - 1].$id;
+      const lastId = lastPage?.documents[lastPage.documents.length - 1].$id;
       return lastId;
     },
   });
@@ -180,5 +181,17 @@ export const useSearchPosts = (searchTerm: string) => {
     queryKey: [QUERY_KEYS.SEARCH_POSTS, searchTerm],
     queryFn: () => searchPosts(searchTerm),
     enabled: !!searchTerm,
+  });
+};
+
+export const useGetUsers = (limit?: number) => {
+  return useInfiniteQuery({
+    queryKey: [QUERY_KEYS.GET_USERS],
+    queryFn: getInfiniteUsers(),
+    getNextPageParam: (lastPage) => {
+      if (lastPage && lastPage.documents.length === 0) return null;
+      const lastId = lastPage?.documents[lastPage.documents.length - 1].$id;
+      return lastId;
+    },
   });
 };
