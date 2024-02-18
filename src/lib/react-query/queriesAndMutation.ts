@@ -12,7 +12,6 @@ import {
   deleteSavedPost,
   getCurrentUser,
   getInfinitePosts,
-  getInfiniteUsers,
   getPostById,
   getRecentPosts,
   likePost,
@@ -176,6 +175,49 @@ export const useGetPosts = () => {
   });
 };
 
+// 2
+// interface Document {
+//   $id: string; // Assuming $id is always a string
+//   // Define other properties if necessary
+// }
+
+// interface LastPage {
+//   documents: Document[];
+//   // Add other properties if necessary
+// }
+
+// export const useGetPosts = () => {
+//   return useInfiniteQuery<LastPage>({
+//     queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
+//     queryFn: getInfinitePosts,
+//     getNextPageParam: (lastPage) => {
+//       if (lastPage && lastPage.documents.length === 0) return null;
+
+//       const lastId = lastPage?.documents[lastPage.documents.length - 1].$id;
+//       const parsedId = lastId ? parseInt(lastId) : null; // Convert $id to number if it exists, otherwise return null
+
+//       return parsedId;
+//     },
+//   });
+// };
+// 3
+
+// const getInfinitePosts: QueryFunction<LastPage, QueryKey, number> = async ({
+//   pageParam,
+// }) => {
+//   // Fetch data based on pageParam
+//   const response = await fetchData(pageParam); // Adjust this to your actual fetching logic
+//   return response.data; // Assuming response contains the data
+// };
+
+// export const useGetPosts = () => {
+//   return useInfiniteQuery<LastPage>({
+//     queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
+//     queryFn: getInfinitePosts,
+//     // getNextPageParam remains unchanged
+//   });
+// };
+
 export const useSearchPosts = (searchTerm: string) => {
   return useQuery({
     queryKey: [QUERY_KEYS.SEARCH_POSTS, searchTerm],
@@ -184,14 +226,14 @@ export const useSearchPosts = (searchTerm: string) => {
   });
 };
 
-export const useGetUsers = () => {
-  return useInfiniteQuery({
-    queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
-    queryFn: getInfiniteUsers,
-    getNextPageParam: (lastPage) => {
-      if (lastPage && lastPage.documents.length === 0) return null;
-      const lastId = lastPage?.documents[lastPage.documents.length - 1].$id;
-      return lastId;
-    },
-  });
-};
+// export const useGetUsers = () => {
+//   return useInfiniteQuery({
+//     queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
+//     queryFn: getInfiniteUsers,
+//     getNextPageParam: (lastPage) => {
+//       if (lastPage && lastPage.documents.length === 0) return null;
+//       const lastId = lastPage?.documents[lastPage.documents.length - 1].$id;
+//       return lastId;
+//     },
+//   });
+// };
