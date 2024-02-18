@@ -395,23 +395,37 @@ export async function searchPosts(searchTerm: string) {
   }
 }
 
+// export async function getInfiniteUsers({ pageParam }: { pageParam: number }) {
+//   const queries: any[] = [Query.cursorAfter("lastId"), Query.limit(10)];
+//   if (pageParam) {
+//     queries.push(Query.cursorAfter(pageParam.toString()));
+//   }
+//   try {
+//     const users = await databases.listDocuments(
+//       appwriteConfig.databaseId,
+//       appwriteConfig.userCollectionId,
+//       queries
+//     );
+//     if (!users) throw Error;
+//     return users;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
 export async function getInfiniteUsers({ pageParam }: { pageParam: number }) {
-  const queries: any[] = [
-    Query.orderDesc("$createdAt"),
-    Query.limit(10),
-    // Query.cursorAfter("lastId"),
-  ];
+  const queries: any[] = [Query.orderDesc("$updatedAt"), Query.limit(10)];
   if (pageParam) {
     queries.push(Query.cursorAfter(pageParam.toString()));
   }
   try {
-    const users = await databases.listDocuments(
+    const posts = await databases.listDocuments(
       appwriteConfig.databaseId,
-      appwriteConfig.userCollectionId,
+      appwriteConfig.postCollectionId,
       queries
     );
-    if (!users) throw Error;
-    return users;
+    if (!posts) throw Error;
+    return posts;
   } catch (error) {
     console.log(error);
   }
