@@ -1,13 +1,29 @@
 import Loader from "@/components/shared/Loader";
 import PostCard from "@/components/shared/PostCard";
-import { useGetRecentPosts } from "@/lib/react-query/queriesAndMutation";
+import {
+  useGetRecentPosts,
+  useGetUsers,
+} from "@/lib/react-query/queriesAndMutation";
 import { Models } from "appwrite";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 const Home = () => {
+  const { ref, inView } = useInView();
+
+  const { data: user, fetchNextPage, hasNextPage } = useGetUsers();
+  // const [searchValue, setSearchValue] = useState("");
+
+  // const debouncedValue = useDebounce(searchValue, 500);
+
+  useEffect(() => {
+    if (inView) fetchNextPage();
+  }, [inView]);
+
   const {
     data: posts,
     isPending: isPostLoading,
-    // isError: isErrorPosts,
+    isError: isErrorPosts,
   } = useGetRecentPosts();
   return (
     <div className="flex flex-1">
@@ -25,6 +41,11 @@ const Home = () => {
             </ul>
           )}
         </div>
+        {hasNextPage && !isPostLoading && !isErrorPosts && (
+          <div className="mt-10" ref={ref}>
+            <Loader />
+          </div>
+        )}
       </div>
     </div>
   );
