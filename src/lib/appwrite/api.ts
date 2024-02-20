@@ -211,7 +211,7 @@ export async function getRecentPosts() {
   const posts = await databases.listDocuments(
     appwriteConfig.databaseId,
     appwriteConfig.postCollectionId,
-    [Query.orderDesc("$createdAt"), Query.limit(20)]
+    [Query.orderDesc("$createdAt"), Query.limit(10)]
   );
   if (!posts) throw Error;
   return posts;
@@ -365,7 +365,7 @@ export async function deletePost(postId?: string, imageId?: string) {
 }
 
 export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
-  const queries: any[] = [Query.orderDesc("$updatedAt"), Query.limit(10)];
+  const queries: any[] = [Query.orderDesc("$updatedAt"), Query.limit(9)];
   if (pageParam) {
     queries.push(Query.cursorAfter(pageParam.toString()));
   }
@@ -415,7 +415,7 @@ export async function searchPosts(searchTerm: string) {
 // }
 
 export async function getInfiniteUsers({ pageParam }: { pageParam: number }) {
-  const queries: any[] = [Query.orderDesc("$updatedAt"), Query.limit(10)];
+  const queries: any[] = [Query.limit(9), Query.cursorAfter("lastId")];
   if (pageParam) {
     queries.push(Query.cursorAfter(pageParam.toString()));
   }
