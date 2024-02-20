@@ -1,3 +1,4 @@
+import GridPostList from "@/components/shared/GridPostList";
 import Loader from "@/components/shared/Loader";
 import PostCard from "@/components/shared/PostCard";
 import {
@@ -11,7 +12,8 @@ import { useInView } from "react-intersection-observer";
 const Home = () => {
   const { ref, inView } = useInView();
 
-  const { fetchNextPage, hasNextPage } = useGetPosts();
+  const { data: users, fetchNextPage, hasNextPage } = useGetPosts();
+  console.log(users);
   // const [searchValue, setSearchValue] = useState("");
 
   // const debouncedValue = useDebounce(searchValue, 500);
@@ -21,6 +23,7 @@ const Home = () => {
   }, [inView]);
 
   const { data: posts, isPending: isPostLoading } = useGetRecentPosts();
+  // console.log(posts);
   return (
     <div className="flex flex-1">
       <div className="home-container">
@@ -34,9 +37,13 @@ const Home = () => {
                 <PostCard key={post.caption} post={post} />
                 // <li key={post.$id}>{post.title}</li>
               ))}
+              {users?.pages.map((item, index) => (
+                <GridPostList key={`page-${index}`} posts={item?.documents} />
+              ))}
             </ul>
           )}
         </div>
+
         {hasNextPage && (
           <div className="mt-10" ref={ref}>
             <Loader />

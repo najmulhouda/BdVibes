@@ -14,6 +14,7 @@ const Explore = () => {
   const { ref, inView } = useInView();
 
   const { data: posts, fetchNextPage, hasNextPage } = useGetPosts();
+  console.log(posts);
   // const { data: users, fetchNextPage, hasNextPage } = useGetUsers();
   const [searchValue, setSearchValue] = useState("");
 
