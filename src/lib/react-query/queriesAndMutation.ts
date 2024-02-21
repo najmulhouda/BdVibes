@@ -183,12 +183,24 @@ export const useSearchPosts = (searchTerm: string) => {
     enabled: !!searchTerm,
   });
 };
+// export const useGetUsers = () => {
+//   return useInfiniteQuery({
+//     queryKey: [QUERY_KEYS.GET_USERS],
+//     queryFn: getInfiniteUsers,
+//     getNextPageParam: (lastPage) => {
+//       // If there's no data, there are no more pages.
+//       if (lastPage && lastPage.documents.length === 0) return null;
+//       const lastId = lastPage?.documents[lastPage.documents.length - 1].$id;
+//       return lastId;
+//     },
+//   });
+// };
+
 export const useGetUsers = () => {
   return useInfiniteQuery({
-    queryKey: [QUERY_KEYS.GET_USER_POSTS],
+    queryKey: [QUERY_KEYS.GET_USER_BY_ID],
     queryFn: getInfiniteUsers,
     getNextPageParam: (lastPage) => {
-      // If there's no data, there are no more pages.
       if (lastPage && lastPage.documents.length === 0) return null;
       const lastId = lastPage?.documents[lastPage.documents.length - 1].$id;
       return lastId;

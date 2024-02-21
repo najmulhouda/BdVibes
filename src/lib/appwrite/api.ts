@@ -397,32 +397,32 @@ export async function searchPosts(searchTerm: string) {
 }
 
 // export async function getInfiniteUsers({ pageParam }: { pageParam: number }) {
-//   const queries: any[] = [Query.cursorAfter("lastId"), Query.limit(10)];
+//   const queries: any[] = [Query.orderDesc("$updatedAt")];
 //   if (pageParam) {
 //     queries.push(Query.cursorAfter(pageParam.toString()));
 //   }
 //   try {
-//     const users = await databases.listDocuments(
+//     const posts = await databases.listDocuments(
 //       appwriteConfig.databaseId,
 //       appwriteConfig.userCollectionId,
 //       queries
 //     );
-//     if (!users) throw Error;
-//     return users;
+//     if (!posts) throw Error;
+//     return posts;
 //   } catch (error) {
 //     console.log(error);
 //   }
 // }
 
 export async function getInfiniteUsers({ pageParam }: { pageParam: number }) {
-  const queries: any[] = [Query.orderDesc("$updatedAt"), Query.limit(9)];
+  const queries: any[] = [Query.orderDesc("$updatedAt"), Query.limit(5)];
   if (pageParam) {
     queries.push(Query.cursorAfter(pageParam.toString()));
   }
   try {
     const posts = await databases.listDocuments(
       appwriteConfig.databaseId,
-      appwriteConfig.postCollectionId,
+      appwriteConfig.userCollectionId,
       queries
     );
     if (!posts) throw Error;
