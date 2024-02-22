@@ -1,29 +1,23 @@
-import GridPostList from "@/components/shared/GridPostList";
+import { PostCard } from "@/components/shared";
 import Loader from "@/components/shared/Loader";
-import PostCard from "@/components/shared/PostCard";
-import {
-  useGetPosts,
-  useGetRecentPosts,
-} from "@/lib/react-query/queriesAndMutation";
-import { Models } from "appwrite";
+import { useGetPosts } from "@/lib/react-query/queriesAndMutation";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
 const Home = () => {
   const { ref, inView } = useInView();
 
-  const { data: users, fetchNextPage, hasNextPage } = useGetPosts();
-  console.log(users);
-  // const [searchValue, setSearchValue] = useState("");
-
-  // const debouncedValue = useDebounce(searchValue, 500);
+  const {
+    data: posts,
+    isPending: isPostLoading,
+    fetchNextPage,
+    hasNextPage,
+  } = useGetPosts();
 
   useEffect(() => {
-    if (inView) fetchNextPage();
-  }, [inView]);
+    if (inView && hasNextPage) fetchNextPage();
+  }, [inView, hasNextPage, fetchNextPage]);
 
-  const { data: posts, isPending: isPostLoading } = useGetRecentPosts();
-  // console.log(posts);
   return (
     <div className="flex flex-1">
       <div className="home-container">
@@ -32,13 +26,13 @@ const Home = () => {
           {isPostLoading && !posts ? (
             <Loader />
           ) : (
-            <ul className="flex flex-col  flex-1 gap-9 w-full">
-              {posts?.documents.map((post: Models.Document) => (
-                <PostCard key={post.caption} post={post} />
-                // <li key={post.$id}>{post.title}</li>
-              ))}
-              {users?.pages.map((item, index) => (
-                <GridPostList key={`page-${index}`} posts={item?.documents} />
+            <ul className="flex flex-col flex-1 gap-9 w-full ">
+              {posts?.pages.map((post: any, index: number) => (
+                <li key={`page-${index}`}>
+                  {post?.documents.map((post: any) => (
+                    <PostCard post={post} />
+                  ))}
+                </li>
               ))}
             </ul>
           )}
