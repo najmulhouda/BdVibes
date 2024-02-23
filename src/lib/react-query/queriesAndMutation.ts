@@ -198,7 +198,7 @@ export const useSearchPosts = (searchTerm: string) => {
 
 export const useGetUsers = () => {
   return useInfiniteQuery({
-    queryKey: [QUERY_KEYS.GET_USER_BY_ID],
+    queryKey: [QUERY_KEYS.GET_USERS],
     queryFn: getInfiniteUsers,
     getNextPageParam: (lastPage) => {
       if (lastPage && lastPage.documents.length === 0) return null;

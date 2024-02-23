@@ -1,44 +1,51 @@
-import Loader from "@/components/shared/Loader";
+import { Loader, UserCard } from "@/components/shared";
+import { useToast } from "@/components/ui/use-toast";
 import { useGetUsers } from "@/lib/react-query/queriesAndMutation";
-import { useEffect } from "react";
-import { useInView } from "react-intersection-observer";
 
 const AllUsers = () => {
-  const { data: users, fetchNextPage, hasNextPage } = useGetUsers();
-  const { ref, inView } = useInView();
-  console.log(users);
-  useEffect(() => {
-    if (inView && hasNextPage) fetchNextPage();
-  }, [inView, hasNextPage, fetchNextPage]);
-  console.log(fetchNextPage);
-  if (!users) {
-    return (
-      <div className="flex-center w-full h-full">
-        <Loader />
-      </div>
-    );
-  }
-  return (
-    <div className="home-container my-10">
-      <ul>
-        {users?.pages.map((item: any, index: number) => (
-          <li className="text-center py-10" key={`page-${index}`}>
-            {item?.documents.map((user: any) => (
-              <div key={user.$id} className="w-20 h-20 m-auto mt-20 rounded-xl">
-                <img src={user.imageUrl} alt="" />
-              </div>
-            ))}
-          </li>
-        ))}
-      </ul>
+  const { toast } = useToast();
 
-      {hasNextPage && (
-        <div ref={ref}>
+  const { data: users, isLoading, isError: isErrorCreators } = useGetUsers();
+
+  console.log(users);
+  if (isErrorCreators) {
+    toast({ title: "Something went wrong." });
+
+    return;
+  }
+
+  return (
+    <div className="common-container">
+      <div className="user-container">
+        <h2 className="h3-bold md:h2-bold text-left w-full">All Users</h2>
+        {isLoading && !users ? (
           <Loader />
-        </div>
-      )}
+        ) : (
+          <>
+            {users?.pages.map((user: any, index: number) => (
+              <ul className="user-grid">
+                {user?.documents.map((user: any) => (
+                  <li
+                    key={`page-${index}`}
+                    className="flex-1 min-w-[200px] w-full  "
+                  >
+                    <UserCard user={user} />
+                  </li>
+                ))}
+              </ul>
+            ))}
+          </>
+        )}
+      </div>
     </div>
   );
 };
 
 export default AllUsers;
+
+// export const useGetUsers = (limit?: number) => {
+//   return useQuery({
+//     queryKey: [QUERY_KEYS.GET_USERS],
+//     queryFn: () => getUsers(limit),
+//   });
+// };
