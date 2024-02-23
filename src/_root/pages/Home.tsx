@@ -26,20 +26,17 @@ const Home = () => {
           {isPostLoading && !posts ? (
             <Loader />
           ) : (
-            <div>
+            <>
               {posts?.pages.map((post: any, index: number) => (
-                <ul className="flex flex-col flex-1 gap9  w-full ">
+                <ul className="flex flex-col flex-1 gap9  w-full " key={index}>
                   {post?.documents.map((post: any) => (
-                    <li
-                      key={`page-${index}`}
-                      className=" justify-center m-5 w-full"
-                    >
-                      <PostCard post={post} />
+                    <li key={post.$id} className=" justify-center m-5 w-full">
+                      <PostCard post={post} key={post.$id} />
                     </li>
                   ))}
                 </ul>
               ))}
-            </div>
+            </>
           )}
         </div>
 

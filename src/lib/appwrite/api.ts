@@ -415,7 +415,7 @@ export async function searchPosts(searchTerm: string) {
 // }
 
 export async function getInfiniteUsers({ pageParam }: { pageParam: number }) {
-  const queries: any[] = [Query.orderDesc("$updatedAt"), Query.limit(5)];
+  const queries: any[] = [Query.orderDesc("$updatedAt"), Query.limit(6)];
   if (pageParam) {
     queries.push(Query.cursorAfter(pageParam.toString()));
   }
@@ -427,6 +427,24 @@ export async function getInfiniteUsers({ pageParam }: { pageParam: number }) {
     );
     if (!posts) throw Error;
     return posts;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getUserPosts(userId?: string) {
+  if (!userId) return;
+
+  try {
+    const post = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      [Query.equal("creator", userId), Query.orderDesc("$createdAt")]
+    );
+
+    if (!post) throw Error;
+
+    return post;
   } catch (error) {
     console.log(error);
   }

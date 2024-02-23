@@ -15,6 +15,7 @@ import {
   getInfiniteUsers,
   getPostById,
   getRecentPosts,
+  getUserPosts,
   likePost,
   savePost,
   searchPosts,
@@ -152,9 +153,8 @@ export const useUpdatePost = () => {
 };
 export const useDeletePost = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
-    mutationFn: ({ postId, imageId }: { postId: string; imageId: string }) =>
+    mutationFn: ({ postId, imageId }: { postId?: string; imageId: string }) =>
       deletePost(postId, imageId),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -163,7 +163,6 @@ export const useDeletePost = () => {
     },
   });
 };
-
 export const useGetPosts = () => {
   return useInfiniteQuery({
     queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
@@ -205,5 +204,13 @@ export const useGetUsers = () => {
       const lastId = lastPage?.documents[lastPage.documents.length - 1].$id;
       return lastId;
     },
+  });
+};
+
+export const useGetUserPosts = (userId?: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_POSTS, userId],
+    queryFn: () => getUserPosts(userId),
+    enabled: !!userId,
   });
 };
