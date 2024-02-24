@@ -17,4 +17,20 @@ export enum QUERY_KEYS {
 
   //  SEARCH KEYS
   SEARCH_POSTS = "getSearchPosts",
+  SEARCH_POSTS_BY_TAG = "getSearchPostsByTag",
+  SEARCH_USERS = "getSearchUsers",
+
+  // NOTIFICATION KEYS
+  GET_NOTIFICATIONS = "getNotifications",
+
+  // COMMENT KEYS
+  GET_COMMENTS = "getComments",
+  CREATE_COMMENT = "createComment",
+  UPDATE_COMMENT = "updateComment",
+  DELETE_COMMENT = "deleteComment",
+
+  // LIKE KEYS
+  LIKE_POSTS = "likePosts",
+  SAVE_POSTS = "savePosts",
+  DELETE_SAVED_POSTS = "deleteSavedPosts",
 }

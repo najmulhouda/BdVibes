@@ -15,7 +15,7 @@ export const INITIAL_USER = {
 
 const INITIAL_STATE = {
   user: INITIAL_USER,
-  isLoading: false,
+  isPending: false,
   isAuthenticated: false,
   setUser: () => {},
   setIsAuthenticated: () => {},
@@ -24,7 +24,7 @@ const INITIAL_STATE = {
 
 type IContextType = {
   user: IUser;
-  isLoading: boolean;
+  isPending: boolean;
   setUser: React.Dispatch<React.SetStateAction<IUser>>;
   isAuthenticated: boolean;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,10 +37,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const [user, setUser] = useState<IUser>(INITIAL_USER);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPending, setisPending] = useState(false);
 
   const checkAuthUser = async () => {
-    setIsLoading(true);
+    setisPending(true);
     try {
       const currentAccount = await getCurrentUser();
       if (currentAccount) {
@@ -62,7 +62,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       console.error(error);
       return false;
     } finally {
-      setIsLoading(false);
+      setisPending(false);
     }
   };
 
@@ -82,7 +82,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const value = {
     user,
     setUser,
-    isLoading,
+    isPending,
     isAuthenticated,
     setIsAuthenticated,
     checkAuthUser,

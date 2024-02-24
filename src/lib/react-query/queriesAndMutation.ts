@@ -177,7 +177,11 @@ export const useGetPosts = () => {
 
 export const useSearchPosts = (searchTerm: string) => {
   return useQuery({
-    queryKey: [QUERY_KEYS.SEARCH_POSTS, searchTerm],
+    queryKey: [
+      QUERY_KEYS.SEARCH_POSTS,
+      // QUERY_KEYS.SEARCH_POSTS_BY_TAG,
+      searchTerm,
+    ],
     queryFn: () => searchPosts(searchTerm),
     enabled: !!searchTerm,
   });
@@ -214,3 +218,10 @@ export const useGetUserPosts = (userId?: string) => {
     enabled: !!userId,
   });
 };
+
+// export const useGetSavedPosts = () => {
+//   return useQuery({
+//     queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
+//     queryFn: getSavedPosts,
+//   });
+// };
