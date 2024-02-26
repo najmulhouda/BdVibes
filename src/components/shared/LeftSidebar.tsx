@@ -31,7 +31,7 @@ const LeftSidebar = () => {
         </Link>
         <Link to={`/profile/${user.id}`} className="flex gap-3 items-center">
           <img
-            src={user.imageUrl || "/assets/images/profile-placeholder.png"}
+            src={user.imageUrl || "public/assets/icons/profile-placeholder.svg"}
             className="h-14 w-14 rounded-full"
           />
           <div>
@@ -39,7 +39,7 @@ const LeftSidebar = () => {
             <p className="small-regular text-light-3">@{user.username}</p>
           </div>
         </Link>
-        <ul className="flex flex-col gap-6">
+        <ul className="flex flex-col gap-2">
           {sidebarLinks.map((link: INavLink) => {
             const isActive = pathname === link.route;
 
