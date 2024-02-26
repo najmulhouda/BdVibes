@@ -15,6 +15,7 @@ import {
   getInfiniteUsers,
   getPostById,
   getRecentPosts,
+  getUserById,
   getUserPosts,
   likePost,
   savePost,
@@ -225,3 +226,11 @@ export const useGetUserPosts = (userId?: string) => {
 //     queryFn: getSavedPosts,
 //   });
 // };
+
+export const useGetUserById = (userId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_BY_ID, userId],
+    queryFn: () => getUserById(userId),
+    enabled: !!userId,
+  });
+};
