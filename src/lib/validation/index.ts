@@ -24,7 +24,11 @@ export const PostValidation = z.object({
 });
 
 export const ProfileValidation = z.object({
-  name: z.string().min(2, { message: "To short" }).max(50),
-  bio: z.string().min(2, { message: "To short" }).max(200),
-  file: z.custom<File>(),
+  file: z.custom<File[]>(),
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  username: z
+    .string()
+    .min(2, { message: "Name must be at least 2 characters." }),
+  email: z.string().email(),
+  bio: z.string(),
 });
