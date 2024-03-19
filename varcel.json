@@ -9,12 +9,12 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "https://your-appwrite-server.com/api/$1"
+      "src": "/(.*)",
+      "dest": "https://your-appwrite-server.com/"
     },
     {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "src": "/sign-in",
+      "dest": "https://your-appwrite-server.com/sign-in"
     }
   ]
 }
